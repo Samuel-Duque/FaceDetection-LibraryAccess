@@ -39,7 +39,7 @@
     "id": 7,
     "nome": "Samuel",
     "foto": "./data/samuel.png",
-    "matricula": "789012"
+    "matricula": "0"
   },
   {
     "id": 8,
@@ -58,5 +58,11 @@
     "nome": "Mestre Caio",
     "foto": "./data/caio.jpg",
     "matricula": "012345"
+  },
+  {
+    "id": 11,
+    "nome": "Mestre Cloves",
+    "foto": "./data/cloves.png",
+    "matricula": "11"
   }
 ]

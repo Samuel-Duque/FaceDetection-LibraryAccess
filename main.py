@@ -17,7 +17,7 @@ for usuario in usuarios:
     known_face_encodings.append(face_encoding)
     known_face_names.append(usuario['nome'])
     known_face_matriculas.append(usuario['matricula'])
-    print(known_face_names)
+    # print(known_face_names)
 
 print('Learned encoding for', len(known_face_encodings), 'images.')
 
@@ -51,7 +51,7 @@ while True:
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
             best_match_index = np.argmin(face_distances)
             if matches[best_match_index]:
-                name = f"{known_face_names[best_match_index]}\n{known_face_matriculas[best_match_index]}"
+                name = f"{known_face_names[best_match_index]}-{known_face_matriculas[best_match_index]}"
 
             face_names.append(name)
 
