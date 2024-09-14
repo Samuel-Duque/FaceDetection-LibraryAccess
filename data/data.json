@@ -2,67 +2,67 @@
   {
     "id": 1,
     "nome": "Barack Obama",
-    "foto": "./data/obama.jpg",
+    "foto": ".static/images/obama.jpg",
     "matricula": "123456"
   },
   {
     "id": 2,
     "nome": "Joe Biden",
-    "foto": "./data/biden.jpg",
+    "foto": ".static/images/biden.jpg",
     "matricula": "234567"
   },
   {
     "id": 3,
     "nome": "ZeAndrade",
-    "foto": "./data/ze.jpg",
+    "foto": ".static/images/ze.jpg",
     "matricula": "345678"
   },
   {
     "id": 4,
     "nome": "Hiarita",
-    "foto": "./data/hiarita.png",
+    "foto": ".static/images/hiarita.png",
     "matricula": "456789"
   },
   {
     "id": 5,
     "nome": "Zythee",
-    "foto": "./data/zythee.png",
+    "foto": ".static/images/zythee.png",
     "matricula": "567890"
   },
   {
     "id": 6,
     "nome": "Jotave",
-    "foto": "./data/jotave.png",
+    "foto": ".static/images/jotave.png",
     "matricula": "678901"
   },
   {
     "id": 7,
     "nome": "Samuel",
-    "foto": "./data/samuel.png",
+    "foto": ".static/images/samuel.png",
     "matricula": "0"
   },
   {
     "id": 8,
     "nome": "Guilherme",
-    "foto": "./data/gui.jpg",
+    "foto": ".static/images/gui.jpg",
     "matricula": "890123"
   },
   {
     "id": 9,
     "nome": "Ortega",
-    "foto": "./data/ortega.jpg",
+    "foto": ".static/images/ortega.jpg",
     "matricula": "901234"
   },
   {
     "id": 10,
     "nome": "Mestre Caio",
-    "foto": "./data/caio.jpg",
+    "foto": ".static/images/caio.jpg",
     "matricula": "012345"
   },
   {
     "id": 11,
     "nome": "Mestre Cloves",
-    "foto": "./data/cloves.png",
+    "foto": ".static/images/cloves.png",
     "matricula": "11"
   }
 ]
