@@ -1,26 +1,60 @@
 "use client";
-import Image from "next/image";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function Home() {
+function App() {
+  const [videoSrc, setVideoSrc] = useState("");
+  const [recognizedPerson, setRecognizedPerson] = useState("");
+
   useEffect(() => {
-    // Atualiza o src da tag img para o feed de vídeo do backend
-    const videoElement = document.getElementById("video-stream");
-    videoElement.src = "http://127.0.0.1:8000/video_feed";
-  }, []);
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch("http://127.0.0.1:8000/usuarios/");
-      const data = await response.json();
-      console.log(data);
+    // URL do streaming de vídeo
+    setVideoSrc("http://127.0.0.1:8000/video_feed");
+
+    // Atualiza a pessoa reconhecida (se necessário, pode ser via WebSocket ou outro método)
+    const fetchRecognitionResults = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/recognition_result"
+        );
+        setRecognizedPerson(response.data.name);
+      } catch (error) {
+        console.error(
+          "Erro ao buscar resultados de reconhecimento facial",
+          error
+        );
+      }
     };
-    fetchUsers();
+
+    const intervalId = setInterval(fetchRecognitionResults, 1000);
+
+    return () => clearInterval(intervalId); // Limpa o intervalo ao desmontar o componente
   }, []);
 
   return (
-    <div className="flex items-center justify-center sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>Reconhecimento Facial</h1>
-      <img id="video-stream" alt="Feed de vídeo" />
+    <div className="text-3xl flex justify-center items-center flex-col gap-20 py-16 w-full h-fit">
+      <div className="text-7xl">
+        Reconhecimento <span className="">Facial</span>
+      </div>
+      <div className="flex">
+        <img
+          src={videoSrc}
+          className="rounded-lg shadow-sm"
+          alt="Camera Feed"
+          style={{ width: "100%" }}
+        />
+      </div>
+      <div>
+        {recognizedPerson && recognizedPerson != "Desconhecido" ? (
+          <h2>
+            Reconhecido:
+            {<span className="text-green-400"> {recognizedPerson}</span>}
+          </h2>
+        ) : (
+          <h2>Aguardando reconhecimento...</h2>
+        )}
+      </div>
     </div>
   );
 }
+
+export default App;
