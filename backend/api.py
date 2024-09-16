@@ -1,10 +1,9 @@
-# api.py
 from fastapi import FastAPI, Depends, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 import models
-import schemas  # Importando os schemas Pydantic
+import schemas 
 from database import engine, get_db
 import cv2
 
