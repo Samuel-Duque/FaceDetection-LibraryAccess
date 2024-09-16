@@ -7,5 +7,5 @@ So... What's the best way to improve a human process? Automatize it! That's exac
 ## Updates
 
 - The first two weeks of this project were mainly spent looking for and reading documentation about how to create this `Face recognition model`. I started programming a sample with local images and an MVP code with a lot of room for improvement. (08/13 -> 08/28)
-- At this moment, my group of researchers is interviewing our college's staff to understand the pain of this process and validate our project to actually help both students and labors.(08/29 -> Now)
-
+- At this moment, our group of researchers are interviewing our college's staff to understand the pain of this process and validate our project to actually help both students and labors. We've reached a decent amount of awnsers and a positive feedback to continue our project. (08/29 -> 09/13)
+- Starting at 2nd week of September, I've started creating an API using `FastAPI` and a DataBase using `SQLite`, the respective archives are `api.py`, `schemas.py`, ` models.py` and `database.py`. Also, I've created a _React_ app aiming to livestream the Face Detection's output
