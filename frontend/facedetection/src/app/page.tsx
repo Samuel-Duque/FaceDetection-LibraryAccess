@@ -5,6 +5,7 @@ import axios from "axios";
 function App() {
   const [videoSrc, setVideoSrc] = useState("");
   const [recognizedPerson, setRecognizedPerson] = useState("");
+  const [turnOn, setTurnOn] = useState(false);
 
   useEffect(() => {
     // URL do streaming de vídeo
@@ -25,34 +26,50 @@ function App() {
       }
     };
 
-    const intervalId = setInterval(fetchRecognitionResults, 1000);
+    const intervalId = setInterval(fetchRecognitionResults, 5000);
 
     return () => clearInterval(intervalId); // Limpa o intervalo ao desmontar o componente
-  }, []);
+  }, [turnOn]);
 
   return (
-    <div className="text-3xl flex justify-center items-center flex-col gap-20 py-16 w-full h-fit">
+    <div className="text-3xl flex justify-center items-center flex-col gap-12 py-16 w-full max-h-screen">
       <div className="text-7xl">
         Reconhecimento <span className="">Facial</span>
       </div>
-      <div className="flex">
-        <img
-          src={videoSrc}
-          className="rounded-lg shadow-sm"
-          alt="Camera Feed"
-          style={{ width: "100%" }}
-        />
-      </div>
       <div>
-        {recognizedPerson && recognizedPerson != "Desconhecido" ? (
-          <h2>
-            Reconhecido:
-            {<span className="text-green-400"> {recognizedPerson}</span>}
-          </h2>
-        ) : (
-          <h2>Aguardando reconhecimento...</h2>
-        )}
+        <button
+          className={`${
+            turnOn ? "bg-red-500" : "bg-green-500"
+          } text-white px-4 py-2 rounded-lg pb-4`}
+          onClick={() => setTurnOn(!turnOn)}
+        >
+          {turnOn ? "Desligar" : "Ligar"}
+        </button>
       </div>
+      {turnOn && (
+        <>
+          <div className="flex">
+            <img
+              src={videoSrc}
+              className="rounded-lg shadow"
+              alt="Camera Feed"
+              // style={{ width: "100%" }}
+            />
+          </div>
+          <div>
+            {recognizedPerson && recognizedPerson != "Desconhecido" ? (
+              <h2>
+                Reconhecido:
+                {<span className="text-green-400"> {recognizedPerson}</span>}
+              </h2>
+            ) : (
+              <h2 className="animated-dots animate-pulse">
+                Aguardando reconhecimento
+              </h2>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

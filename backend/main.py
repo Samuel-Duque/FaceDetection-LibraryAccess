@@ -27,7 +27,6 @@ def create_usuario(nome, foto, matricula):
 # Carrega os usuários do banco de dados via API
 usuarios = get_usuarios()
 
-
 known_face_encodings = []
 known_face_names = []
 known_face_matriculas = []

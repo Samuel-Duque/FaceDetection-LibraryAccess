@@ -26,3 +26,23 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes blink {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  56% {
+    content: "..";
+  }
+  80% {
+    content: "...";
+  }
+}
+
+.animated-dots::after {
+  content: "";
+  animation: blink 3s steps(1, end) infinite;
+}

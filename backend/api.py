@@ -146,7 +146,7 @@ def recognition_result():
     #Create a time to reset the name if the name has not changed after 30 seconds
     if time.time() - start_time > 30:
         name = "Desconhecido"
+    print(name)
 
 
-
-    return {"name": name, "time": start_time}
+    return {"name": name, "time": time.time() - start_time}
