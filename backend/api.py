@@ -1,3 +1,4 @@
+import os
 import time
 from fastapi import FastAPI, Depends, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
@@ -75,16 +76,17 @@ video_capture = cv2.VideoCapture(0)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
 def get_usuarios():
     response = requests.get(f"{API_URL}/usuarios/")
     if response.status_code == 200:
         return response.json()  
     return []
 
-video_capture = cv2.VideoCapture(0)
-
 name = "Desconhecido"
 start_time = time.time()
+captured_frame = None
+
 
 # Função para capturar os usuários do banco e carregar suas faces
 def load_known_faces():
@@ -102,12 +104,15 @@ def load_known_faces():
 def generate_frames():
     global name
     global start_time
+    global captured_frame
 
     known_face_encodings, known_face_names = load_known_faces()
     while True:
         success, frame = video_capture.read()
         if not success:
             break
+
+        captured_frame = frame
 
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         face_locations = face_recognition.face_locations(rgb_frame)
@@ -135,6 +140,36 @@ def generate_frames():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
+@app.get("/capturar_frame")
+def capture_frame():
+    global captured_frame
+    if captured_frame is None:
+        raise HTTPException(status_code=404, detail="Nenhum frame capturado")
+    
+    image_path = "static/captured_frame.jpg"
+    cv2.imwrite(image_path, captured_frame)
+
+    return {"message": "Frame capturado com sucesso", "image_path": image_path}
+
+@app.post("/registrar_usuario")
+async def register_usuario(nome:str, matricula:str):
+    image_path = "static/captured_frame.jpg"
+    if not os.path.exists(image_path):
+        raise HTTPException(status_code=404, detail="Nenhum frame capturado")
+    
+    new_image_path = f"static/{nome}_{matricula}.jpg"
+    os.rename(image_path, new_image_path)
+
+    usuario_data = {
+        "nome": nome,
+        "foto": new_image_path,
+        "matricula": matricula
+    }
+
+    create_usuario(usuario_data)
+
+    return {"message": "Usuário registrado com sucesso", "foto": new_image_path}
+
 
 @app.get("/video_feed")
 def video_feed():
@@ -143,8 +178,7 @@ def video_feed():
 @app.get("/recognition_result")
 def recognition_result():
     global name
-    #Create a time to reset the name if the name has not changed after 30 seconds
-    if time.time() - start_time > 30:
+    if time.time() - start_time > 10:
         name = "Desconhecido"
     print(name)
 
