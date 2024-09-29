@@ -51,9 +51,15 @@ function App() {
         {
           nome: nome,
           matricula: matricula,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       alert("Pessoa registrada com sucesso!");
+      closeModal();
     } catch (error) {
       console.error("Erro ao registrar pessoa", error);
     }
@@ -88,6 +94,16 @@ function App() {
           Registrar
         </button>
       </div>
+      {capturedImage && (
+        <div>
+          <h2>Imagem Capturada:</h2>
+          <img
+            src={`http://127.0.0.1:8000/${capturedImage}`}
+            alt="Imagem Capturada"
+            style={{ width: "300px" }}
+          />
+        </div>
+      )}
 
       <div className="w-full max-w-2xl p-4 rounded-lg shadow-lg">
         <img
@@ -117,7 +133,9 @@ function App() {
             >
               &times;
             </span>
-            <h2 className="text-2xl font-bold mb-4">Registrar Nova Pessoa</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-700">
+              Registrar Nova Pessoa
+            </h2>
             <input
               type="text"
               placeholder="Nome"

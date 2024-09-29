@@ -17,10 +17,9 @@ API_URL = "http://127.0.0.1:8000"
 
 app = FastAPI()
 
-# Adiciona o middleware CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],  # Permite apenas o frontend local
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -151,25 +150,31 @@ def capture_frame():
 
     return {"message": "Frame capturado com sucesso", "image_path": image_path}
 
-@app.post("/registrar_usuario")
-async def register_usuario(nome:str, matricula:str):
+from pydantic import BaseModel
+class UsuarioRegistro(BaseModel):
+    nome: str
+    matricula: str
+
+@app.post("/registrar_usuario",response_model=schemas.Usuario)
+async def register_usuario(usuario: UsuarioRegistro,db: Session = Depends(get_db)):
     image_path = "static/captured_frame.jpg"
     if not os.path.exists(image_path):
         raise HTTPException(status_code=404, detail="Nenhum frame capturado")
     
-    new_image_path = f"static/{nome}_{matricula}.jpg"
+    new_image_path = f"static/images/{usuario.nome}_{usuario.matricula}.jpg"
     os.rename(image_path, new_image_path)
 
-    usuario_data = {
-        "nome": nome,
+    novo_usuario = {
+        "nome": usuario.nome,
         "foto": new_image_path,
-        "matricula": matricula
+        "matricula": usuario.matricula,
     }
 
-    create_usuario(usuario_data)
+    db.add(novo_usuario)
+    db.commit()
+    db.refresh(novo_usuario)
 
-    return {"message": "Usuário registrado com sucesso", "foto": new_image_path}
-
+    return novo_usuario
 
 @app.get("/video_feed")
 def video_feed():
