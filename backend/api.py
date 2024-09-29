@@ -94,10 +94,13 @@ def load_known_faces():
     known_face_names = []
     for usuario in usuarios:
         imagem = face_recognition.load_image_file(usuario['foto'])
-        face_encoding = face_recognition.face_encodings(imagem)[0]
-        known_face_encodings.append(face_encoding)
-        known_face_names.append(usuario['nome'])
+        face_encodings = face_recognition.face_encodings(imagem)
+        if face_encodings:  # Check if face_encodings is not empty
+            face_encoding = face_encodings[0]
+            known_face_encodings.append(face_encoding)
+            known_face_names.append(usuario['nome'])
     return known_face_encodings, known_face_names
+
 
 # Função para gerar os frames e processar reconhecimento facial
 def generate_frames():
@@ -164,11 +167,12 @@ async def register_usuario(usuario: UsuarioRegistro,db: Session = Depends(get_db
     new_image_path = f"static/images/{usuario.nome}_{usuario.matricula}.jpg"
     os.rename(image_path, new_image_path)
 
-    novo_usuario = {
-        "nome": usuario.nome,
-        "foto": new_image_path,
-        "matricula": usuario.matricula,
-    }
+    novo_usuario = models.Usuario(
+        nome=usuario.nome,
+        foto=new_image_path,
+        matricula=usuario.matricula,
+    )
+    print(novo_usuario)
 
     db.add(novo_usuario)
     db.commit()
