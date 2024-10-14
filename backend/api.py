@@ -89,13 +89,13 @@ captured_frame = None
 
 # Função para capturar os usuários do banco e carregar suas faces
 def load_known_faces():
-    usuarios = get_usuarios()  # Assumindo que essa função já retorna usuários da API
+    usuarios = get_usuarios()
     known_face_encodings = []
     known_face_names = []
     for usuario in usuarios:
         imagem = face_recognition.load_image_file(usuario['foto'])
         face_encodings = face_recognition.face_encodings(imagem)
-        if face_encodings:  # Check if face_encodings is not empty
+        if face_encodings:  
             face_encoding = face_encodings[0]
             known_face_encodings.append(face_encoding)
             known_face_names.append(usuario['nome'])

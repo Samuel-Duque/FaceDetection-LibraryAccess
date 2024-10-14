@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import Image from "next/image";
 function App() {
   const [videoSrc, setVideoSrc] = useState("");
   const [recognizedPerson, setRecognizedPerson] = useState("");
@@ -46,7 +46,7 @@ function App() {
   const registerPerson = async () => {
     try {
       console.log("Registrando pessoa", nome, matricula);
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/registrar_usuario",
         {
           nome: nome,
@@ -97,7 +97,7 @@ function App() {
       {capturedImage && (
         <div>
           <h2>Imagem Capturada:</h2>
-          <img
+          <Image
             src={`http://127.0.0.1:8000/${capturedImage}`}
             alt="Imagem Capturada"
             style={{ width: "300px" }}
@@ -106,7 +106,7 @@ function App() {
       )}
 
       <div className="w-full max-w-2xl p-4 rounded-lg shadow-lg">
-        <img
+        <Image
           src={videoSrc}
           alt="Camera Feed"
           className="w-full max-h-80 object-cover rounded-lg"

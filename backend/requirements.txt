@@ -1,7 +1,11 @@
 fastapi
 uvicorn
 sqlalchemy
-sqlite
 face_recognition
 opencv-python
 numpy
+setuptools
+psycopg2-binary
+requests
+opencv-python-headless
+pydantic
